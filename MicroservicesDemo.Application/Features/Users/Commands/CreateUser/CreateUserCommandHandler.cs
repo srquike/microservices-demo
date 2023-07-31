@@ -1,27 +1,29 @@
 ﻿using AutoMapper;
 using MediatR;
 using MicroservicesDemo.Application.Contracts.Persistence;
+using MicroservicesDemo.Application.Features.Users.Common;
 using MicroservicesDemo.Domain;
 
 namespace MicroservicesDemo.Application.Features.Users.Commands.CreateUser
 {
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, bool>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserDto>
     {
-        private readonly IRepository<UserEntity, Guid> _repository;
+        private readonly IRepository _repository;
         private readonly IMapper _mapper;
 
-        public CreateUserCommandHandler(IRepository<UserEntity, Guid> repository, IMapper mapper)
+        public CreateUserCommandHandler(IRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
 
-        public async Task<bool> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<UserDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
             var user = _mapper.Map<UserEntity>(request);
             var result = await _repository.CreateAsync(user);
+            var userCreated = _mapper.Map<UserDto>(result);
 
-            return result;
+            return userCreated;
         }
     }
 }

@@ -5,23 +5,21 @@ using MicroservicesDemo.Domain;
 
 namespace MicroservicesDemo.Application.Features.Users.Commands.UpdateUser
 {
-    public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, bool>
+    public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
     {
-        private readonly IRepository<UserEntity, Guid> _repository;
+        private readonly IRepository _repository;
         private readonly IMapper _mapper;
 
-        public UpdateUserCommandHandler(IRepository<UserEntity, Guid> repository, IMapper mapper)
+        public UpdateUserCommandHandler(IRepository repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
         }
 
-        public async Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+        public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
             var user = _mapper.Map<UserEntity>(request);
-            var result = await _repository.UpdateAsync(user);
-
-            return result;
+            await _repository.UpdateAsync(user);
         }
     }
 }

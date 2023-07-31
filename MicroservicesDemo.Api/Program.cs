@@ -1,7 +1,9 @@
 using Asp.Versioning.Conventions;
 using MicroservicesDemo.Api.Versioning.v1;
-using MicroservicesDemo.Application.Features.Users.Queries.GetUsers;
 using System.Net;
+using MicroservicesDemo.Application;
+using MicroservicesDemo.Infrastructure;
+using MicroservicesDemo.Application.Features.Users.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,9 @@ builder.Services.AddApiVersioning(options => options.ReportApiVersions = true)
         options.GroupNameFormat = "v'VVV'";
     });
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -32,13 +37,13 @@ app.UseHttpsRedirection();
 var mapGroup = app.MapGroup("api/v1/user");
 
 mapGroup.MapGet("/", TypedResultsMethods.GetAllUsersAsync)
-    .Produces<IList<UserViewModel>>()
+    .Produces<IList<UserDto>>()
     .Produces((int)HttpStatusCode.NoContent)
     .WithApiVersionSet(users)
     .HasApiVersion(1);
 
 mapGroup.MapPost("/", TypedResultsMethods.CreateUserAsync)
-    .Produces<UserViewModel>()
+    .Produces<UserDto>()
     .Produces((int)HttpStatusCode.BadRequest)
     .Produces((int)HttpStatusCode.Created)
     .Produces((int)HttpStatusCode.Conflict)

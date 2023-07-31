@@ -2,7 +2,7 @@
 
 namespace MicroservicesDemo.Domain
 {
-    public class UserEntity : BaseEntity<Guid>
+    public class UserEntity : BaseEntity
     {
         public string? Name { get; set; }
         public bool IsActivated { get; set; }
