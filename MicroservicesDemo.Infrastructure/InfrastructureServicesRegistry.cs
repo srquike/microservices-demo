@@ -13,7 +13,7 @@ namespace MicroservicesDemo.Infrastructure
         {
             services.AddDbContext<UsersDbContext>(options =>
             {
-                options.UseSqlServer(configuration.GetConnectionString("UsersDb"), provider =>
+                options.UseNpgsql(configuration.GetConnectionString("UsersDb"), provider =>
                 {
                     provider.EnableRetryOnFailure();
                 });
