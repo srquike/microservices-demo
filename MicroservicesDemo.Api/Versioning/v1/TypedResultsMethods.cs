@@ -2,6 +2,7 @@
 using MicroservicesDemo.Application.Features.Users.Commands.CreateUser;
 using MicroservicesDemo.Application.Features.Users.Commands.DeleteUser;
 using MicroservicesDemo.Application.Features.Users.Commands.UpdateUser;
+using MicroservicesDemo.Application.Features.Users.Queries.GetUser;
 using MicroservicesDemo.Application.Features.Users.Queries.GetUsers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,9 +44,16 @@ namespace MicroservicesDemo.Api.Versioning.v1
             return TypedResults.NoContent();
         }
 
-        //public static async Task<IResult> GetUserById(string id, IMediator mediator)
-        //{
-        //    var query = new GetUserByIdQuery();
-        //}
+        public static async Task<IResult> GetUserById(string id, IMediator mediator)
+        {
+            var query = new GetUserQuery()
+            {
+                Id = Guid.Parse(id)
+            };
+
+            var user = await mediator.Send(query);
+
+            return TypedResults.Ok(user);
+        }
     }
 }

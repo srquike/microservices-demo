@@ -1,6 +1,7 @@
 ﻿using MicroservicesDemo.Application.Contracts.Persistence;
 using MicroservicesDemo.Domain;
 using MicroservicesDemo.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace MicroservicesDemo.Infrastructure.Repositories
 {
@@ -15,6 +16,8 @@ namespace MicroservicesDemo.Infrastructure.Repositories
 
         public async Task<UserEntity> CreateAsync(UserEntity user)
         {
+            user.Id = Guid.NewGuid();
+
             await _context.Users.AddAsync(user);
             var result = await _context.SaveChangesAsync();
 
@@ -47,14 +50,15 @@ namespace MicroservicesDemo.Infrastructure.Repositories
                 throw new Exception();
             }
         }
-        public Task<IReadOnlyList<UserEntity>> GetAsync()
+
+        public async Task<IReadOnlyList<UserEntity>> GetAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Users.AsNoTracking().ToListAsync();
         }
 
-        public Task<UserEntity> GetAsync(Guid id)
+        public async Task<UserEntity> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id.Equals(id));
         }
     }
 }

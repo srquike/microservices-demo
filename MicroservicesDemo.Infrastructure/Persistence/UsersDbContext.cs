@@ -26,12 +26,12 @@ namespace MicroservicesDemo.Infrastructure.Persistence
                 switch (item.State)
                 {
                     case EntityState.Modified:
-                        item.Entity.LastModifiedDate = DateTime.Now;
-                        item.Entity.LastModifiedBy = "application";
+                        item.Entity.LastModifiedDate = DateTime.UtcNow;
+                        item.Entity.LastModifiedBy = $"{Environment.MachineName}: {Environment.UserName}";
                         break;
                     case EntityState.Added:
-                        item.Entity.CreatedDate = DateTime.Now;
-                        item.Entity.CreatedBy = "application";
+                        item.Entity.CreatedDate = DateTime.UtcNow;
+                        item.Entity.CreatedBy = $"{Environment.MachineName}: {Environment.UserName}";
                         break;
                     default:
                         break;

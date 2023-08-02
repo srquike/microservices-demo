@@ -13,11 +13,6 @@ namespace MicroservicesDemo.Application.Features.Users.Commands.UpdateUser
                 .MaximumLength(50)
                 .MinimumLength(3)
                 .WithMessage("User's name should have at least 3 characters and a maximum of 50 characters.");
-
-            RuleFor(uuc => uuc.Id)
-                .NotEmpty()
-                .NotNull()
-                .WithMessage("User's Id can't be empty or null.");
         }
     }
 }

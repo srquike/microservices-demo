@@ -18,7 +18,15 @@ namespace MicroservicesDemo.Application.Features.Users.Commands.UpdateUser
 
         public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var user = _mapper.Map<UserEntity>(request);
+            var result = await _repository.GetAsync(request.Id);
+
+            if (result == null)
+            {
+                throw new NullReferenceException(nameof(result));
+            }
+
+            var user = _mapper.Map(request, result);
+
             await _repository.UpdateAsync(user);
         }
     }

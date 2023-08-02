@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using MicroservicesDemo.Application.Features.Users.Commands.CreateUser;
+using MicroservicesDemo.Application.Features.Users.Commands.DeleteUser;
+using MicroservicesDemo.Application.Features.Users.Commands.UpdateUser;
 using MicroservicesDemo.Application.Features.Users.Common;
-using MicroservicesDemo.Application.Features.Users.Queries.GetUsers;
 using MicroservicesDemo.Domain;
 
 namespace MicroservicesDemo.Application.Profiles
@@ -15,6 +16,8 @@ namespace MicroservicesDemo.Application.Profiles
 
             // Command to Entity
             CreateMap<CreateUserCommand, UserEntity>();
+            CreateMap<DeleteUserCommand, UserEntity>();
+            CreateMap<UpdateUserCommand, UserEntity>();
         }
     }
 }
