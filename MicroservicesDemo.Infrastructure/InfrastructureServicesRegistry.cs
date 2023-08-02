@@ -1,6 +1,8 @@
-﻿using MicroservicesDemo.Application.Contracts.Persistence;
+﻿using MicroservicesDemo.Application.Contracts.Infrastructure;
+using MicroservicesDemo.Application.Contracts.Persistence;
 using MicroservicesDemo.Infrastructure.Persistence;
 using MicroservicesDemo.Infrastructure.Repositories;
+using MicroservicesDemo.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +22,7 @@ namespace MicroservicesDemo.Infrastructure
             });
 
             services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IMessageProducer, RabbitMQProducer>();
 
             return services;
         }

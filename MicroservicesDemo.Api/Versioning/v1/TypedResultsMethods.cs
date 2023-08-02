@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MicroservicesDemo.Application.Contracts.Infrastructure;
 using MicroservicesDemo.Application.Features.Users.Commands.CreateUser;
 using MicroservicesDemo.Application.Features.Users.Commands.DeleteUser;
 using MicroservicesDemo.Application.Features.Users.Commands.UpdateUser;
@@ -18,9 +19,11 @@ namespace MicroservicesDemo.Api.Versioning.v1
             return TypedResults.Ok(users);
         }
 
-        public static async Task<IResult> CreateUserAsync([FromBody] CreateUserCommand command, IMediator mediator)
+        public static async Task<IResult> CreateUserAsync([FromBody] CreateUserCommand command, IMediator mediator, IMessageProducer producer)
         {
             var user = await mediator.Send(command);
+
+            producer.SendMessage(user);
 
             return TypedResults.Ok(user);
         }
